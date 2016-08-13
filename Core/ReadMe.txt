@@ -1,29 +1,29 @@
 ========================================================================
-    DYNAMIC LINK LIBRARY : KeySender Project Overview
+    DYNAMIC LINK LIBRARY : Core Project Overview
 ========================================================================
 
-AppWizard has created this KeySender DLL for you.  
+AppWizard has created this Core DLL for you.  
 
 This file contains a summary of what you will find in each of the files that
-make up your KeySender application.
+make up your Core application.
 
-KeySender.vcxproj
+Core.vcxproj
     This is the main project file for VC++ projects generated using an Application Wizard. 
     It contains information about the version of Visual C++ that generated the file, and 
     information about the platforms, configurations, and project features selected with the
     Application Wizard.
 
-KeySender.vcxproj.filters
+Core.vcxproj.filters
     This is the filters file for VC++ projects generated using an Application Wizard. 
     It contains information about the association between the files in your project 
     and the filters. This association is used in the IDE to show grouping of files with
     similar extensions under a specific node (for e.g. ".cpp" files are associated with the
     "Source Files" filter).
 
-KeySender.cpp
+Core.cpp
     This is the main DLL source file.
 
-KeySender.h
+Core.h
     This file contains a class declaration.
 
 AssemblyInfo.cpp
