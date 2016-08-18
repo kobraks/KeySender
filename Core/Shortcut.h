@@ -1,4 +1,6 @@
 #pragma once
+#include "Shortcutcpp.h"
+#include "Converter.h"
 
 namespace Core
 {
@@ -7,9 +9,7 @@ namespace Core
 	public ref class Shortcut
 	{
 	private:
-		String^ _name, ^_message, ^_shortcutKey;
-		int _interval;
-		bool _ctr, _alt, _shift, _isReady;
+		Core::cpp::Shortcutcpp* shortcut;
 
 	public:
 #pragma region propertyies
@@ -18,12 +18,12 @@ namespace Core
 		{
 			String^ get()
 			{
-				return _name;
+				return Core::Converter::ConvertStoManagmentS(shortcut->GetName());
 			}
 
 			void set(String^ value)
 			{
-				_name = value;
+				shortcut->SetName(Core::Converter::ConvertManagmentStoS(value));
 			}
 		}
 
@@ -31,12 +31,12 @@ namespace Core
 		{
 			int get()
 			{
-				return _interval;
+				return shortcut->GetInterval();
 			}
 
 			void set(int value)
 			{
-				this->_interval = value;
+				shortcut->SetInterval(value);
 			}
 		}
 
@@ -44,12 +44,12 @@ namespace Core
 		{
 			String^ get()
 			{
-				return _message;
+				return Core::Converter::ConvertStoManagmentS(shortcut->GetMessage());
 			}
 
 			void set(String^ value)
 			{
-				_message = value;
+				shortcut->SetMessage(Core::Converter::ConvertManagmentStoS(value));
 			}
 		}
 
@@ -57,12 +57,12 @@ namespace Core
 		{
 			bool get()
 			{
-				return _ctr;
+				return shortcut->GetCtr();
 			}
 
 			void set(bool value)
 			{
-				_ctr = value;
+				shortcut->SetCtr(value);
 			}
 		}
 
@@ -70,12 +70,12 @@ namespace Core
 		{
 			bool get()
 			{
-				return _alt;
+				return shortcut->GetAlt();
 			}
 
 			void set(bool value)
 			{
-				_alt = value;
+				shortcut->SetAlt(value);
 			}
 		}
 
@@ -83,12 +83,12 @@ namespace Core
 		{
 			bool get()
 			{
-				return _shift;
+				return shortcut->GetShift();
 			}
 
 			void set(bool value)
 			{
-				_shift = value;
+				shortcut->SetShift(value);
 			}
 		}
 
@@ -96,12 +96,12 @@ namespace Core
 		{
 			bool get()
 			{
-				return _isReady;
+				return shortcut->GetReady();
 			}
 
 			void set(bool value)
 			{
-				_isReady = value;
+				shortcut->SetReady(value);
 			}
 		}
 
@@ -109,17 +109,20 @@ namespace Core
 		{
 			String^ get()
 			{
-				return _shortcutKey;
+				return Core::Converter::ConvertStoManagmentS(shortcut->GetShortcutKey());
 			}
 
 			void set(String^ value)
 			{
-				_shortcutKey = value;
+				shortcut->SetShortcutKey(Core::Converter::ConvertManagmentStoS(value));
 			}
 		}
 #pragma endregion
 
+		Core::cpp::Shortcutcpp* GetShortcutcpp();
+
 		Shortcut();
+		Shortcut(Core::cpp::Shortcutcpp* shortcutcpp);
 		~Shortcut();
 
 		void Send();

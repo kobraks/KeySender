@@ -1,5 +1,6 @@
 #pragma once
 #include "Token.h"
+#include "Text.h"
 
 namespace Core
 {
@@ -12,7 +13,7 @@ namespace Core
 		public:
 			Parser();
 
-			array<String^>^ Parse(array<Token^>^ tokens);
+			array<Text::Text^>^ Parse(array<Token^>^ tokens);
 
 		private:
 			String^ Decode(String^ Code);

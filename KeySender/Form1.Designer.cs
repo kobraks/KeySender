@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,7 +41,6 @@
             this.name = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.message = new System.Windows.Forms.RichTextBox();
             this.MessageL = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -85,33 +83,34 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
+            this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(170, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(178, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // add
             // 
-            this.add.Location = new System.Drawing.Point(115, 345);
+            this.add.Location = new System.Drawing.Point(116, 350);
             this.add.Name = "add";
             this.add.Size = new System.Drawing.Size(136, 74);
             this.add.TabIndex = 1;
@@ -122,7 +121,7 @@
             // delete
             // 
             this.delete.Enabled = false;
-            this.delete.Location = new System.Drawing.Point(438, 345);
+            this.delete.Location = new System.Drawing.Point(438, 350);
             this.delete.Name = "delete";
             this.delete.Size = new System.Drawing.Size(148, 74);
             this.delete.TabIndex = 2;
@@ -158,9 +157,14 @@
             this.name.TabIndex = 5;
             this.name.TextChanged += new System.EventHandler(this.name_TextChanged);
             // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "KeySender files (*.kesp)|*.kesp";
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "KeySender files (*.kesp)|*.kesp";
             // 
             // message
             // 
@@ -215,12 +219,12 @@
             this.shortcutKey.Size = new System.Drawing.Size(100, 22);
             this.shortcutKey.TabIndex = 11;
             this.shortcutKey.TextChanged += new System.EventHandler(this.shortcutKey_TextChanged);
-            this.shortcutKey.KeyDown += new System.Windows.Forms.KeyEventHandler(this.shortcutKey_KeyDown);
             this.shortcutKey.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.shortcutKey_KeyPress);
             // 
             // ctr
             // 
             this.ctr.AutoSize = true;
+            this.ctr.Enabled = false;
             this.ctr.Location = new System.Drawing.Point(290, 100);
             this.ctr.Name = "ctr";
             this.ctr.Size = new System.Drawing.Size(48, 21);
@@ -232,6 +236,7 @@
             // alt
             // 
             this.alt.AutoSize = true;
+            this.alt.Enabled = false;
             this.alt.Location = new System.Drawing.Point(242, 102);
             this.alt.Name = "alt";
             this.alt.Size = new System.Drawing.Size(46, 21);
@@ -243,6 +248,7 @@
             // shift
             // 
             this.shift.AutoSize = true;
+            this.shift.Enabled = false;
             this.shift.Location = new System.Drawing.Point(344, 100);
             this.shift.Name = "shift";
             this.shift.Size = new System.Drawing.Size(58, 21);
@@ -322,7 +328,6 @@
         private System.Windows.Forms.TextBox name;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.RichTextBox message;
         private System.Windows.Forms.Label MessageL;
         private System.Windows.Forms.Label label1;

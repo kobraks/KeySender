@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Shortcutscpp.h"
 #include "Shortcut.h"
 
 
@@ -15,6 +16,8 @@ namespace Core {
 	public:
 		Shortcuts();
 		~Shortcuts();
+
+		void Clear();
 
 		bool Load(String^ path);
 		bool Save(String^ path);
@@ -30,10 +33,10 @@ namespace Core {
 		{
 			int get()
 			{
-				return shortcuts->Count;
+				return shortcut->Size();
 			}
 		}
 	private:
-		List<Shortcut^>^ shortcuts;
+		 Core::cpp::Shortcutscpp* shortcut;
 	};
 }

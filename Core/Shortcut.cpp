@@ -11,21 +11,16 @@ using namespace System::Diagnostics;
 
 Core::Shortcut::Shortcut()
 {
-	_name = "new";
-	_message = "write your message";
-	_shortcutKey = "";
-	_interval = 100;
-	_ctr = false;
-	_alt = false;
-	_shift = false;
-	_isReady = false;
+	shortcut = new Core::cpp::Shortcutcpp();
+}
+
+Core::Shortcut::Shortcut(Core::cpp::Shortcutcpp* shortcutcpp)
+{
+	shortcut = shortcutcpp;
 }
 
 Core::Shortcut::~Shortcut()
 {
-	delete _name;
-	delete _message;
-	delete _shortcutKey;
 }
 
 void Core::Shortcut::Send()
@@ -33,18 +28,22 @@ void Core::Shortcut::Send()
 	Parser::Parser^ parser = gcnew Parser::Parser();
 	Tokenizer^ tokenizer = gcnew Tokenizer();
 
-	auto tokens = tokenizer->Tokenize(_message);
+	auto tokens = tokenizer->Tokenize(Message);
 	auto toSend = parser->Parse(tokens);
 
 	for (int i = 0; i < toSend->Length; i++)
 	{
-		Debug::WriteLine(_message);
-		if (toSend[i] != String::Empty)
+		Debug::WriteLine(Message);
+		if (toSend[i]->Message != String::Empty)
 		{
-			SendKeys::Send(toSend[i]);
-			Debug::WriteLine(toSend[i]);
+			toSend[i]->Send(Interval);
 
-			if (i != toSend->Length && toSend[i] != "{ENTER}") SendKeys::Send(" ");
+			if (i != toSend->Length - 1 && !toSend[i]->IsSpecialValue) SendKeys::Send(" ");
 		}
 	}
+}
+
+Core::cpp::Shortcutcpp* Core::Shortcut::GetShortcutcpp()
+{
+	return this->shortcut;
 }

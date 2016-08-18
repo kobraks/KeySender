@@ -9,16 +9,16 @@ Parser::Parser()
 {
 }
 
-array<String^>^ Parser::Parse(array<Token^>^ tokens)
+array<Core::Text::Text^>^ Parser::Parse(array<Token^>^ tokens)
 {
-	List<String^>^ message = gcnew List<String^>();
+	List<Core::Text::Text^>^ message = gcnew List<Core::Text::Text^>();
 	bool command = false;
 
 	for each (auto t in tokens)
 	{
 		if (t->Key == ' ' && !command)
 		{
-			message->Add(t->Value);
+			message->Add(gcnew Core::Text::Text(t->Value));
 		}
 		else if (t->Key == '{' && !command)
 		{
@@ -30,7 +30,7 @@ array<String^>^ Parser::Parse(array<Token^>^ tokens)
 		}
 		else if (command && t->Key == ' ')
 		{
-			message->Add(Decode(t->Value));
+			message->Add(gcnew Core::Text::Text(Decode(t->Value), true));
 		}
 	}
 

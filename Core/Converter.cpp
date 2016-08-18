@@ -12,12 +12,12 @@ string Core::Converter::ConvertManagmentStoS(String^ stringToConvert)
 	return msclr::interop::marshal_as<string>(stringToConvert);
 }
 
-String^ Core::Converter::ConvertStoManagmentS(string stringToConvert)
+String^ Core::Converter::ConvertStoManagmentS(string& stringToConvert)
 {
 	return gcnew String(stringToConvert.c_str());
 }
 
-string Core::Converter::ConvertWStoS(wstring stringToConvert)
+string Core::Converter::ConvertWStoS(wstring& stringToConvert)
 {
 	string tmp;
 
@@ -27,7 +27,7 @@ string Core::Converter::ConvertWStoS(wstring stringToConvert)
 	return tmp;
 }
 
-wstring Core::Converter::ConvertStoWS(string stringToConvert)
+wstring Core::Converter::ConvertStoWS(string& stringToConvert)
 {
 	wstring tmp(stringToConvert.begin(), stringToConvert.end());
 	return tmp;

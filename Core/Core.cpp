@@ -9,68 +9,50 @@ using namespace Core;
 
 Shortcuts::Shortcuts()
 {
-	shortcuts = gcnew List<Shortcut^>();
+	shortcut = new Core::cpp::Shortcutscpp();
 }
 
 Shortcuts::~Shortcuts()
 {
-	for each(auto element in shortcuts)
-	{
-		delete element;
-	}
-
-	shortcuts->Clear();
+	delete shortcut;
 }
 
 Shortcut^ Shortcuts::Get(String^ name)
 {
-	for each(auto element in shortcuts)
-	{
-		if (element->Name == name) return element;
-	}
-
-	return nullptr;
+	return gcnew Shortcut(shortcut->Get(Core::Converter::ConvertManagmentStoS(name)));
 }
 
 Shortcut^ Shortcuts::Get(int number)
 {
-	if (number < 0 || number > shortcuts->Count) return nullptr;
-	else return shortcuts[number];
+	return gcnew Shortcut(shortcut->Get(number));
 }
 
 bool Shortcuts::Load(String^ path)
 {
-	return false;
+	return shortcut->Load(Core::Converter::ConvertManagmentStoS(path));
 }
 
 bool Shortcuts::Save(String^ path)
 {
-	return false;
+	return shortcut->Save(Core::Converter::ConvertManagmentStoS(path));
 }
 
 void Shortcuts::Add(Shortcut^ shortcut)
 {
-	shortcuts->Add(shortcut);
+	this->shortcut->Add(shortcut->GetShortcutcpp());
 }
 
 void Shortcuts::Remove(int index)
 {
-	if (shortcuts->Count == 0) return;
-
-	if (index >= 0 && index < shortcuts->Count)
-	{
-		delete shortcuts[index];
-		shortcuts->RemoveAt(index);
-	}
+	shortcut->Remove(index);
 }
 
 void Shortcuts::Change(int index, Shortcut^ shortcut)
 {
-	if (shortcuts->Count == 0) return;
+	this->shortcut->Change(index, shortcut->GetShortcutcpp());
+}
 
-	if (index >= 0 && index < shortcuts->Count)
-	{
-		delete shortcuts[index];
-		shortcuts[index] = shortcut;
-	}
+void Shortcuts::Clear()
+{
+	this->shortcut->Clear();
 }

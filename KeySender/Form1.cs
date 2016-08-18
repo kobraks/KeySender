@@ -15,7 +15,6 @@ namespace KeySender
         private const int WM_KEYDOWN = 0x0100;
         private LowLevelKeyboardProc _proc;
         private static IntPtr _hookID = IntPtr.Zero;
-        private static bool lastKeyWasLetter = false;
         static Keys _hookedKey;
         Keys HookedKey
         {
@@ -58,7 +57,7 @@ namespace KeySender
         }
 
         private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
-        {
+      {
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 Keys key = (Keys)Marshal.ReadInt32(lParam);
@@ -92,6 +91,28 @@ namespace KeySender
             this.KeyPressed += this.OnKeyPressed;
         }
 
+        public Form1(String[] args)
+        {
+            InitializeComponent();
+            _proc = HookCallback;
+            _hookID = SetHook(_proc);
+
+            if (args.Length != 0)
+            {
+                try
+                {
+                    shortcuts.Load(args[0]);
+                }
+                catch(Exception)
+                {
+                      MessageBox.Show("Unable to load file: " + args[0], "Error" , MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            this.KeyPressed += this.OnKeyPressed;
+
+        }
+
         private void add_Click(object sender, EventArgs e)
         {
             if (index > MAXITEMS) return;
@@ -120,6 +141,8 @@ namespace KeySender
 
             this.delete.Enabled = true;
             this.panel1.Enabled = true;
+            this.saveToolStripMenuItem.Enabled = true;
+            ready.Enabled = false;
             this.list.Items.Insert(index, shortcut.Name);
             LoadValues(index);
             this.list.ClearSelected();
@@ -141,6 +164,9 @@ namespace KeySender
             this.shift.Checked = shortcut.Shift;
             this.ctr.Checked = shortcut.Ctr;
             this.ready.Checked = shortcut.Ready;
+
+            if (string.IsNullOrEmpty(shortcut.ShortcutKey))
+                ready.Enabled = false;
 
             this.message.Text = shortcut.Message;
             this.name.Text = shortcut.Name;
@@ -182,6 +208,7 @@ namespace KeySender
                 CleanValues();
                 panel1.Enabled = false;
                 delete.Enabled = false;
+                this.saveToolStripMenuItem.Enabled = false;
                 deleting = false;
 
                 return;
@@ -198,12 +225,46 @@ namespace KeySender
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var resoult = openFileDialog1.ShowDialog();
+            
+            if (resoult == DialogResult.OK)
+            {
+                Debug.WriteLine(openFileDialog1.FileName);
 
+                try
+                {
+                    list.Items.Clear();
+                    shortcuts.Clear();
+                    shortcuts.Load(openFileDialog1.FileName);
+                    for (int i = 0; i < shortcuts.Count; i++)
+                    {
+                        list.Items.Add(shortcuts.Get(i).Name);
+                    }
+                    this.delete.Enabled = true;
+                    this.panel1.Enabled = true;
+                    this.saveToolStripMenuItem.Enabled = true;
+                    index = 0;
+                    LoadValues(index);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                }
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var resoult = saveFileDialog1.ShowDialog();
 
+            Debug.WriteLine(resoult.ToString());
+            Debug.WriteLine(saveFileDialog1.FileName);
+
+
+            if (resoult == DialogResult.OK)
+            {
+                shortcuts.Save(saveFileDialog1.FileName);
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -234,7 +295,7 @@ namespace KeySender
 
         private void name_TextChanged(object sender, EventArgs e)
         {
-            if(!deleting)
+            if(!deleting && !editing)
             {
                 editing = true;
 
@@ -248,7 +309,7 @@ namespace KeySender
 
         private void interval_TextChanged(object sender, EventArgs e)
         {
-            if (!deleting)
+            if (!deleting && !editing)
             {
                 shortcut.Interval = int.Parse(interval.Text);
                 shortcuts.Change(index, shortcut);
@@ -258,7 +319,7 @@ namespace KeySender
 
         private void message_TextChanged(object sender, EventArgs e)
         {
-            if (!deleting)
+            if (!deleting && !editing)
             {
                 shortcut.Message = message.Text;
                 shortcuts.Change(index, shortcut);
@@ -281,11 +342,6 @@ namespace KeySender
             ((TextBox)sender).Text = HookedKey.ToString();
         }
 
-        private void shortcutKey_KeyDown(object sender, KeyEventArgs e)
-        {
-            
-        }
-
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             UnhookWindowsHookEx(_hookID);
@@ -299,14 +355,10 @@ namespace KeySender
                 {
                     if (shortcuts.Get(i).Ready)
                     {
-                        if (sendShortcut == null)
-                        {
-                            Thread.Sleep(1000);
-                            sendShortcut = shortcuts.Get(i);
-                            sendShortcut.Send();
-                            sendShortcut = null;
-                        }
-                        else return;
+                        Thread.Sleep(1000);
+                        sendShortcut = shortcuts.Get(i);
+                        sendShortcut.Send();
+                        sendShortcut = null;
                     }
                 }
             }
