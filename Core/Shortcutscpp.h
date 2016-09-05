@@ -19,9 +19,11 @@ namespace Core
 
 			Shortcutcpp* Get(std::string name);
 			Shortcutcpp* Get(int index);
+			Shortcutcpp* operator[](int index);
 
 			void Add(Shortcutcpp* shortcut);
 			void Remove(int index);
+			void Remove(std::string name);
 			void Change(int indxex, Shortcutcpp* shortcut);
 
 			int Size();

@@ -19,12 +19,19 @@ Shortcuts::~Shortcuts()
 
 Shortcut^ Shortcuts::Get(String^ name)
 {
-	return gcnew Shortcut(shortcut->Get(Core::Converter::ConvertManagmentStoS(name)));
+	auto var = shortcut->Get(Core::Converter::ConvertManagmentStoS(name));
+
+	if (var == nullptr)
+		return nullptr;
+	else
+		return gcnew Shortcut(var);
 }
 
 Shortcut^ Shortcuts::Get(int number)
 {
-	return gcnew Shortcut(shortcut->Get(number));
+	if (number < Count && number >= 0)
+		return gcnew Shortcut(shortcut->Get(number));
+	else return nullptr;
 }
 
 bool Shortcuts::Load(String^ path)
@@ -45,6 +52,11 @@ void Shortcuts::Add(Shortcut^ shortcut)
 void Shortcuts::Remove(int index)
 {
 	shortcut->Remove(index);
+}
+
+void Shortcuts::Remove(String^ name)
+{
+	shortcut->Remove(Converter::ConvertManagmentStoS(name));
 }
 
 void Shortcuts::Change(int index, Shortcut^ shortcut)

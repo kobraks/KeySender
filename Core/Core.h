@@ -24,6 +24,7 @@ namespace Core {
 
 		void Add(Shortcut^ shortcut);
 		void Remove(int index);
+		void Remove(String^ name);
 		void Change(int index, Shortcut^ shortcut);
 
 		Shortcut^ Get(int number);

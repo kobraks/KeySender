@@ -45,6 +45,11 @@ Shortcutcpp* Shortcutscpp::Get(int index)
 	else return shortcuts[index];
 }
 
+Shortcutcpp* Shortcutscpp::operator[](int index)
+{
+	return Get(index);
+}
+
 void Shortcutscpp::Add(Shortcutcpp* value)
 {
 	this->shortcuts.push_back(new Shortcutcpp(*value));
@@ -56,6 +61,19 @@ void Shortcutscpp::Remove(int index)
 
 	delete this->shortcuts[index];
 	this->shortcuts.erase(shortcuts.begin() + index);
+}
+
+void Shortcutscpp::Remove(string name)
+{
+	for (int i = 0; i < shortcuts.size(); i++)
+	{
+		if (shortcuts[i]->GetName() == name)
+		{
+			delete this->shortcuts[i];
+			this->shortcuts.erase(shortcuts.begin() + i);
+			return;
+		}
+	}
 }
 
 void Shortcutscpp::Change(int index, Shortcutcpp* value)
